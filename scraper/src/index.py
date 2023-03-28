@@ -106,8 +106,8 @@ def run_config(config):
     # Kill browser if needed
     BrowserHandler.destroy(config.driver)
 
-    if len(config.extra_records) > 0:
-        meilisearch_helper.add_records(config.extra_records, "Extra records", False)
+    # if len(config.extra_records) > 0:
+        # meilisearch_helper.add_records(config.extra_records, "Extra records", False)
 
     print("")
 

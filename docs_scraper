@@ -15,8 +15,8 @@ if len(sys.argv) <= 1:
     print(usage())
     sys.exit(1)
 
-if HOST_URL is None or API_KEY is None:
-    print("Error: MEILISEARCH_HOST_URL and MEILISEARCH_API_KEY environment variables are required.")
-    sys.exit(1)
+# if HOST_URL is None or API_KEY is None:
+#     print("Error: MEILISEARCH_HOST_URL and MEILISEARCH_API_KEY environment variables are required.")
+#     sys.exit(1)
 
 run_config(sys.argv[1])

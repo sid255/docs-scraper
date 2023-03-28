@@ -99,10 +99,11 @@ class MeiliSearchHelper:
     }
 
     def __init__(self, host_url, api_key, index_uid, custom_settings):
-        self.meilisearch_client = meilisearch.Client(host_url, api_key)
-        self.meilisearch_index = self.meilisearch_client.index(index_uid)
-        self.delete_index()
-        self.add_settings(MeiliSearchHelper.SETTINGS, custom_settings)
+        print('yo')
+        # self.meilisearch_client = meilisearch.Client(host_url, api_key)
+        # self.meilisearch_index = self.meilisearch_client.index(index_uid)
+        # self.delete_index()
+        # self.add_settings(MeiliSearchHelper.SETTINGS, custom_settings)
 
     def add_settings(self, default_settings, custom_settings):
         settings = {**default_settings, **custom_settings}
@@ -118,7 +119,7 @@ class MeiliSearchHelper:
         for i in range(0, record_count, 50):
             parsed_records = list(map(parse_record, records[i:i + 50]))
             cleaned_records = list(map(clean_dict, parsed_records))
-            self.meilisearch_index.add_documents(cleaned_records)
+            # self.meilisearch_index.add_documents(cleaned_records)
 
         color = "96" if from_sitemap else "94"
 

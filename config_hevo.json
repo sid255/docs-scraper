@@ -1,0 +1,20 @@
+{
+  "index_uid": "docs",
+  "start_urls": ["https://docs.hevodata.com/events-usage/"],
+  "sitemap_urls": ["https://docs.hevodata.com/sitemap.xml"],
+  "stop_urls": [],
+  "selectors": {
+    "lvl0": {
+      "selector": "doc-page-title h1",
+      "global": true,
+      "default_value": "Documentation"
+    },
+    "lvl1": "h1",
+    "lvl2": "article h2",
+    "lvl3": "article h3",
+    "lvl4": "article h4",
+    "lvl5": "article h5, article td:first-child",
+    "lvl6": "article h6",
+    "text": "article p, article li, article td:last-child"
+  }
+}
