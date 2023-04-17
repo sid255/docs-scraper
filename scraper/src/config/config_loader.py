@@ -104,8 +104,8 @@ class ConfigLoader:
 
     def _parse(self):
         # Parse Env
-        self.app_id = os.environ.get('MEILISEARCH_HOST_URL', None)
-        self.api_key = os.environ.get('MEILISEARCH_API_KEY', None)
+        # self.app_id = os.environ.get('MEILISEARCH_HOST_URL', None)
+        # self.api_key = os.environ.get('MEILISEARCH_API_KEY', None)
 
         if self.index_uid_tmp is None:
             self.index_uid_tmp = os.environ.get('index_uid_TMP', self.index_uid + '_tmp')
