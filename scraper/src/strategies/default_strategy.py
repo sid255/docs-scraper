@@ -56,7 +56,7 @@ class DefaultStrategy(AbstractStrategy):
 
     def _update_record_with_global_content(self, record, levels):
         for level in levels:
-            if 'lvl' not in level and level not in ['content', 'text']:
+            if 'lvl' not in level and level not in ['content', 'text', 'code']:
                 record[level] = self.global_content[level]
 
         return record
@@ -94,7 +94,7 @@ class DefaultStrategy(AbstractStrategy):
             # Update the hierarchy for each new header
             current_level_int = levels.index(current_level)
 
-            if current_level != 'content':
+            if current_level not in ['content', 'code']:
                 hierarchy[current_level] = self._get_text_content_for_level(
                     node, current_level, selectors)
                 anchors[current_level] = Anchor.get_anchor(node)
@@ -115,7 +115,7 @@ class DefaultStrategy(AbstractStrategy):
                                                                    current_level_int)
 
             # We only save content for the 'text' matches
-            content = None if current_level != 'content' else self.get_text(
+            content = None if current_level not in ['content', 'code'] else self.get_text(
                 node, self.get_strip_chars(current_level, selectors))
 
             if (
@@ -326,6 +326,9 @@ class DefaultStrategy(AbstractStrategy):
 
         if 'content' in selectors:
             used_levels.append('content')
+
+        if 'code' in selectors:
+            used_levels.append('code')
 
         return used_levels
 

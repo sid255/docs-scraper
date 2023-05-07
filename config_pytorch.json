@@ -9,7 +9,7 @@
       "tags": [
         "master"
       ],
-      "selectors_key": "default"
+      "selectors_key": "code"
     }
   ],
   "stop_urls": [
@@ -17,6 +17,23 @@
     "\\?"
   ],
   "selectors": {
+    "code": {
+      "lvl0": {
+        "selector": ".jumbotron h1",
+        "global": true,
+        "default_value": "Documentation"
+      },
+      "lvl1": "article h1",
+      "lvl2": "article h2",
+      "lvl3": "article h3",
+      "lvl4": "article h4",
+      "lvl5": "article h5",
+      "text": "article p, article li",
+      "code": {
+        "selector": "descendant-or-self::article/descendant-or-self::*/p/following::*/pre | descendant-or-self::article/descendant-or-self::*/li/descendant-or-self::*/pre",
+        "type": "xpath"
+      }
+    },
     "default": {
       "lvl0": {
         "selector": ".jumbotron h1",
