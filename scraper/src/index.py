@@ -18,6 +18,8 @@ from .custom_downloader_middleware import CustomDownloaderMiddleware
 from .custom_dupefilter import CustomDupeFilter
 from .config.browser_handler import BrowserHandler
 
+from .elasticsearch_helper import ElasticSearchHelper
+
 try:
     # disable boto (S3 download)
     from scrapy import optional_features
@@ -37,12 +39,22 @@ def run_config(config):
 
     strategy = DefaultStrategy(config)
 
-    meilisearch_helper = MeiliSearchHelper(
-        config.app_id,
-        config.api_key,
-        config.index_uid,
-        config.custom_settings
+    # meilisearch_helper = MeiliSearchHelper(
+    #     config.app_id,
+    #     config.api_key,
+    #     config.index_uid,
+    #     config.custom_settings
+    # )
+
+    esh = ElasticSearchHelper(
+    "https://localhost:9200",
+    "elastic",
+    "UG9d5rs8Grfrkwy7jpsy",
+    False,
+    None
     )
+
+    esh.create_index("es_index_00")
 
     root_module = 'src.' if __name__ == '__main__' else 'scraper.src.'
     DOWNLOADER_MIDDLEWARES_PATH = root_module + 'custom_downloader_middleware.' + CustomDownloaderMiddleware.__name__
@@ -96,7 +108,7 @@ def run_config(config):
     process.crawl(
         DocumentationSpider,
         config=config,
-        meilisearch_helper=meilisearch_helper,
+        elasticsearch_helper=esh,
         strategy=strategy
     )
 
