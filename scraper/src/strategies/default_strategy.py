@@ -113,10 +113,13 @@ class DefaultStrategy(AbstractStrategy):
 
             hierarchy = self._update_hierarchy_with_global_content(hierarchy,
                                                                    current_level_int)
-
-            # We only save content for the 'text' matches
-            content = None if current_level not in ['content', 'code'] else self.get_text(
-                node, self.get_strip_chars(current_level, selectors))
+            content, code = None, None
+            if current_level in ['content', 'code'] :
+                txt = self.get_text(node, self.get_strip_chars(current_level, selectors))
+                if current_level == 'content':
+                    content = txt
+                elif current_level == 'code':
+                        code = txt
 
             if (
                     content is None or content == "") and current_level == 'content':
@@ -131,6 +134,7 @@ class DefaultStrategy(AbstractStrategy):
             record = {
                 'anchor': self._get_closest_anchor(anchors),
                 'content': content,
+                'code': code,
                 'hierarchy': hierarchy,
                 'hierarchy_radio': Hierarchy.get_hierarchy_radio(hierarchy,
                                                                  current_level,
