@@ -43,12 +43,117 @@ def parse_record(record):
     return {**record, **new_weight, **new_hierarchy, **new_hierarchy_radio}
 
 class ElasticSearchHelper:
+    import os
+    host  =  os.getenv("ES_HOST","https://localhost:9200")
+    username= os.getenv("ES_USERNAME","elastic")
+    password =os.getenv("ES_PASSWORD","tYOE2itkYeE4Yv920wUc")
 
-    def __init__(self, host, username, password, veify_certs=False, ca_cert_path=None):
+    DEFAULT_MAPPING = {
+        
+    "properties": {
+            "anchor": {
+                        "type": "text",
+                        "fields": {"keyword": {"type": "keyword"}},
+                    },
+            "hierarchy_lvl0": {
+                        "type": "text",
+                        "fields": {"keyword": {"type": "keyword"}},
+                    },
+            "hierarchy_lvl1": {
+                        "type": "text",
+                        "fields": {"keyword": {"type": "keyword"}},
+                    },
+            "hierarchy_lvl2": {
+                        "type": "text",
+                        "fields": {"keyword": {"type": "keyword"}},
+                    },
+            "hierarchy_lvl3": {
+                        "type": "text",
+                        "fields": {"keyword": {"type": "keyword"}},
+                    },
+            "hierarchy_lvl4": {
+                        "type": "text",
+                        "fields": {"keyword": {"type": "keyword"}},
+                    },
+            "hierarchy_lvl5": {
+                        "type": "text",
+                        "fields": {"keyword": {"type": "keyword"}},
+                    },
+            "hierarchy_radio_lvl0": {
+                        "type": "text",
+                        "fields": {"keyword": {"type": "keyword"}},
+                    },
+            "hierarchy_radio_lvl1": {
+                        "type": "text",
+                        "fields": {"keyword": {"type": "keyword"}},
+                    },
+            "hierarchy_radio_lvl2": {
+                        "type": "text",
+                        "fields": {"keyword": {"type": "keyword"}},
+                    },
+            "hierarchy_radio_lvl3": {
+                        "type": "text",
+                        "fields": {"keyword": {"type": "keyword"}},
+                    },
+            "hierarchy_radio_lvl4": {
+                        "type": "text",
+                        "fields": {"keyword": {"type": "keyword"}},
+                    },
+            "hierarchy_radio_lvl5": {
+                        "type": "text",
+                        "fields": {"keyword": {"type": "keyword"}},
+                    },
+            "content": {
+                        "type": "text"
+                    },
+            "code": {
+                        "type": "text"
+                    },
+            "level": {
+                        "type": "text",
+                        "fields": {"keyword": {"type": "keyword"}},
+                    },
+            "objectID": {
+                        "type": "text",
+                        "fields": {"keyword": {"type": "keyword"}},
+                    },
+
+            "page_rank": {
+                        "type": "text",
+                        "fields": {"keyword": {"type": "keyword"}},
+                    },
+
+            "tags": {
+                        "type": "text",
+                        "fields": {"keyword": {"type": "keyword"}},
+                    },
+            "type": {
+                        "type": "text",
+                        "fields": {"keyword": {"type": "keyword"}},
+                    },
+            "url": {
+                        "type": "text",
+                        "fields": {"keyword": {"type": "keyword"}},
+                    },
+            "url_without_anchor": {
+                        "type": "text",
+                        "fields": {"keyword": {"type": "keyword"}},
+                    },
+            "url_without_variables": {
+                        "type": "text",
+                        "fields": {"keyword": {"type": "keyword"}},
+                    }
+
+            }
+        }
+
+    # if username, password and host are not provided, it will use class variables
+    def __init__(self, veify_certs=False, ca_cert_path=None):
+
         self.client = elasticsearch.Elasticsearch(
-            hosts=host,
+            hosts=self.host,
             ca_certs=ca_cert_path,
-            basic_auth=(username, password),
+            basic_auth=(self.username, self.password),
             verify_certs=veify_certs
         )
        
@@ -57,7 +162,7 @@ class ElasticSearchHelper:
         try:
             self.client.indices.get(index=index)
         except NotFoundError:
-            self.client.indices.create(index=index)
+            self.client.indices.create(index=index, mappings=self.DEFAULT_MAPPING)
         except Exception as e:
             sys.exit(e)
     
@@ -81,8 +186,9 @@ class ElasticSearchHelper:
                     # "_type": "tickets",
                     # "_id": j,
                     "_source": {
-                        "data": record,
-                        "timestamp": datetime.now()}
+                        **record,
+                        
+                        }
                 }
                     for record in records
                 ]
@@ -106,26 +212,30 @@ class ElasticSearchHelper:
             parsed_records = list(map(parse_record, records[i:i + 50]))
             cleaned_records = list(map(clean_dict, parsed_records))
             
-            self.bulk_ingest_data_into_index("es_index_00",cleaned_records)
+            self.bulk_ingest_data_into_index("es_index_01",cleaned_records)
             
 
         color = "96" if from_sitemap else "94"
 
         print(
             f'\033[{color}m> Docs-Scraper: \033[0m{url}\033[93m {record_count} records\033[0m)')
+        
+    def delete_all_documents_of_an_index(self, index):
+        self.client.delete_by_query(index=index, body={"query": {"match_all": {}}})
 
         
 
+def __main__():
 
-# index = "es_index_00",
-# esh = ElasticSearchHelper(
-#     "https://localhost:9200",
-#     "elastic",
-#     "UG9d5rs8Grfrkwy7jpsy",
-#     False,
-#     None
-#     )
+    index = "es_index_01",
+    esh = ElasticSearchHelper(
+        "https://localhost:9200",
+        "elastic",
+        "tYOE2itkYeE4Yv920wUc",
+        False,
+        None
+        )
 
-# esh.create_index(index)
+    esh.create_index(index)
 
-# esh.ingest_data_into_index(index, {"test":"data"})
+    esh.ingest_data_into_index(index, {"test":"data"})

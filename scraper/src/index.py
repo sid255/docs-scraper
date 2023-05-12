@@ -46,15 +46,9 @@ def run_config(config):
     #     config.custom_settings
     # )
 
-    esh = ElasticSearchHelper(
-    "https://localhost:9200",
-    "elastic",
-    "UG9d5rs8Grfrkwy7jpsy",
-    False,
-    None
-    )
+    esh = ElasticSearchHelper()
 
-    esh.create_index("es_index_00")
+    esh.create_index("es_index_01")
 
     root_module = 'src.' if __name__ == '__main__' else 'scraper.src.'
     DOWNLOADER_MIDDLEWARES_PATH = root_module + 'custom_downloader_middleware.' + CustomDownloaderMiddleware.__name__
