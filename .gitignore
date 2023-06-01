@@ -26,4 +26,4 @@ configs/private
 config.json
 
 ds-deps/
-./venv/
+./venv

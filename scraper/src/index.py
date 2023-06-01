@@ -39,16 +39,7 @@ def run_config(config):
 
     strategy = DefaultStrategy(config)
 
-    # meilisearch_helper = MeiliSearchHelper(
-    #     config.app_id,
-    #     config.api_key,
-    #     config.index_uid,
-    #     config.custom_settings
-    # )
-
     esh = ElasticSearchHelper()
-
-    esh.create_index("es_index_01")
 
     root_module = 'src.' if __name__ == '__main__' else 'scraper.src.'
     DOWNLOADER_MIDDLEWARES_PATH = root_module + 'custom_downloader_middleware.' + CustomDownloaderMiddleware.__name__
@@ -112,10 +103,6 @@ def run_config(config):
     # Kill browser if needed
     BrowserHandler.destroy(config.driver)
 
-    # if len(config.extra_records) > 0:
-        # meilisearch_helper.add_records(config.extra_records, "Extra records", False)
-
-    print("")
 
     if DocumentationSpider.NB_INDEXED > 0:
         # meilisearch_helper.commit_tmp_index()

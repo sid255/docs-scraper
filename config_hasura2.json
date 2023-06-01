@@ -1,0 +1,33 @@
+{
+    "index_uid": "pytorch",
+    "index_name": "pytorch",
+    "app_id": "http://localhost:7700/",
+    "api_key": "MASTER_KEY",
+    "start_urls": [
+        {
+            "url": "https://hasura.io/docs/latest/hasura-cli/quickstart/",
+            "tags": [
+                "master"
+            ],
+            "selectors_key": "code"
+        }
+    ],
+    "stop_urls": [
+        "/_",
+        "\\?"
+    ],
+    "selectors": {
+        "code": {
+            "lvl0": {
+                "selector": ".jumbotron h1",
+                "global": true,
+                "default_value": "Documentation"
+              },
+            "lvl1": "div h1",
+            "lvl2": "div h2",
+            "lvl3": "div h3",
+            "text": "div p",
+            "code": "div pre"
+        }
+    }
+}

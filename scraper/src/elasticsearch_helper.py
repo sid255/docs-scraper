@@ -46,7 +46,8 @@ class ElasticSearchHelper:
     import os
     host  =  os.getenv("ES_HOST","https://localhost:9200")
     username= os.getenv("ES_USERNAME","elastic")
-    password =os.getenv("ES_PASSWORD","tYOE2itkYeE4Yv920wUc")
+    password =os.getenv("ES_PASSWORD","1EGfFki2XmAD7K0BzWZd")
+    index    = os.getenv("ES_INDEX", "es_index")
 
     DEFAULT_MAPPING = {
         
@@ -212,7 +213,7 @@ class ElasticSearchHelper:
             parsed_records = list(map(parse_record, records[i:i + 50]))
             cleaned_records = list(map(clean_dict, parsed_records))
             
-            self.bulk_ingest_data_into_index("es_index_01",cleaned_records)
+            self.bulk_ingest_data_into_index(self.index,cleaned_records)
             
 
         color = "96" if from_sitemap else "94"
@@ -224,7 +225,7 @@ class ElasticSearchHelper:
         self.client.delete_by_query(index=index, body={"query": {"match_all": {}}})
 
         
-
+# this is to just run this file
 def __main__():
 
     index = "es_index_01",

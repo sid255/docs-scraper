@@ -325,7 +325,7 @@ class DefaultStrategy(AbstractStrategy):
 
         for level in levels:
             if level not in selectors:
-                break
+                continue
             used_levels.append(level)
 
         if 'content' in selectors:
